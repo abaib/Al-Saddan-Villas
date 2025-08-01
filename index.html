@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Al-Saddan Villas | Financial Dashboard</title>
+    <!-- Chosen Palette: Calm Harmony -->
+    <!-- Application Structure Plan: A single-page dashboard design. The structure begins with a high-level summary of key financial metrics (KPIs) in a hero section for immediate impact. A sticky navigation bar allows users to jump to specific sections: a detailed cost breakdown, an interactive project timeline, and the investment ask. This thematic structure was chosen over mirroring the source report's layout because it allows an investor to quickly assess the project's viability at the top level and then drill down into specific areas of interest (costs, timeline) in a non-linear fashion, which is a more intuitive user flow for analysis and decision-making. Added a language switcher for internationalization. -->
+    <!-- Visualization & Content Choices: 
+        - KPIs (Inform): Large static numbers in cards for immediate clarity.
+        - Cost Breakdown (Organize/Compare): A donut chart (Chart.js) visualizes cost proportions. Interactive buttons switch the view between Total, Blockwork, and Plastering costs, dynamically updating the chart and associated data cards. This is more engaging and less overwhelming than static tables. Detailed item lists are available in modals for drill-down.
+        - Project Forecast (Change/Trend): A line chart (Chart.js) shows cumulative revenue, cost, and profit over time. This is the most effective way to visualize financial progression and project success for an investor.
+        - Investment Ask (Inform): A clear, well-formatted text section to explicitly state the required capital.
+        - Justification: This interactive, visual approach makes complex financial data digestible and supports exploration, which is superior to static tables and text for an investor presentation. All text elements are now dynamically updated based on language selection.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-en: 'Inter', sans-serif;
+            --font-ar: 'Cairo', sans-serif;
+            --font-bn: 'Inter', sans-serif; /* Using Inter for Bengali as a fallback */
+        }
+        html[lang="en"] body { font-family: var(--font-en); }
+        html[lang="ar"] body { font-family: var(--font-ar); }
+        html[lang="bn"] body { font-family: var(--font-bn); }
+
+        body {
+            background-color: #F8F9FA;
+            color: #343A40;
+        }
+        .kpi-card {
+            background-color: #FFFFFF;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .kpi-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .nav-link {
+            transition: color 0.2s;
+        }
+        .nav-link:hover {
+            color: #007BFF;
+        }
+        .btn-secondary {
+            background-color: #6C757D;
+            color: white;
+            transition: background-color 0.2s;
+        }
+        .btn-secondary.active {
+            background-color: #343A40;
+            font-weight: 600;
+        }
+        .lang-btn {
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.375rem;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+        .lang-btn.active {
+            background-color: #007BFF;
+            color: white;
+            border-color: #0056b3;
+        }
+        .lang-btn:not(.active):hover {
+            background-color: #e9ecef;
+        }
+        .modal-bg {
+            background-color: rgba(0,0,0,0.5);
+        }
+        html[dir="rtl"] .list-disc {
+            padding-right: 1.5rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white/80 backdrop-blur-sm sticky top-0 z-40 shadow-sm">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-4">
+                    <h1 class="text-2xl font-bold text-gray-800" data-translate-key="projectTitle">Al-Saddan Villas</h1>
+                    <div class="flex items-center gap-1 bg-gray-100 p-1 rounded-md">
+                        <button id="lang-en" class="lang-btn">EN</button>
+                        <button id="lang-ar" class="lang-btn">AR</button>
+                        <button id="lang-bn" class="lang-btn">BN</button>
+                    </div>
+                </div>
+                <nav class="hidden md:flex md:gap-8">
+                    <a href="#overview" class="nav-link text-gray-600 font-medium" data-translate-key="navOverview">Overview</a>
+                    <a href="#cost-breakdown" class="nav-link text-gray-600 font-medium" data-translate-key="navCostBreakdown">Cost Breakdown</a>
+                    <a href="#timeline" class="nav-link text-gray-600 font-medium" data-translate-key="navTimeline">Project Timeline</a>
+                    <a href="#investment" class="nav-link text-gray-600 font-medium" data-translate-key="navInvestment">Investment Ask</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 sm:p-6 lg:p-8">
+        
+        <!-- Hero Section with KPIs -->
+        <section id="kpis" class="mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="kpi-card p-6">
+                    <h3 class="text-gray-500 text-lg font-medium" data-translate-key="kpiRevenue">Total Revenue</h3>
+                    <p class="text-4xl font-bold text-blue-600 mt-2">SAR 7.1M</p>
+                </div>
+                <div class="kpi-card p-6">
+                    <h3 class="text-gray-500 text-lg font-medium" data-translate-key="kpiProfit">Total Profit</h3>
+                    <p class="text-4xl font-bold text-green-600 mt-2">SAR 2.97M</p>
+                </div>
+                <div class="kpi-card p-6">
+                    <h3 class="text-gray-500 text-lg font-medium" data-translate-key="kpiMargin">Profit Margin</h3>
+                    <p class="text-4xl font-bold text-green-600 mt-2">42%</p>
+                </div>
+                <div class="kpi-card p-6">
+                    <h3 class="text-gray-500 text-lg font-medium" data-translate-key="kpiDuration">Project Duration</h3>
+                    <p class="text-4xl font-bold text-gray-700 mt-2" data-translate-key="kpiDurationValue">5 Months</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Project Overview -->
+        <section id="overview" class="mb-16 bg-white p-8 rounded-lg shadow-md">
+            <h2 class="text-3xl font-bold text-gray-800 mb-2" data-translate-key="overviewTitle">Project Overview</h2>
+            <p class="text-lg text-gray-600 mb-6 max-w-3xl" data-translate-key="overviewSubtitle">This section provides a high-level view of the project's scope and the financial breakdown for a single villa, illustrating the core profitability.</p>
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-center">
+                <div class="lg:col-span-2">
+                    <h3 class="text-2xl font-semibold mb-4" data-translate-key="overviewKeyDetails">Key Details</h3>
+                    <div class="space-y-4 text-lg">
+                        <div class="flex items-center">
+                            <span class="text-blue-500 mx-3">📍</span>
+                            <div><strong class="font-semibold" data-translate-key="overviewLocation">Location:</strong> Al-Khumra, Jeddah</div>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-blue-500 mx-3">🏗️</span>
+                            <div><strong class="font-semibold" data-translate-key="overviewScope">Scope:</strong> 100 Villas (Blockwork & Plastering)</div>
+                        </div>
+                        <div class="flex items-center">
+                           <span class="text-green-500 mx-3">💰</span>
+                            <div><strong class="font-semibold" data-translate-key="overviewContractValue">Contract Value/Villa:</strong> SAR 71,000</div>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-red-500 mx-3">💸</span>
+                            <div><strong class="font-semibold" data-translate-key="overviewTotalCost">Total Cost/Villa:</strong> SAR 40,919</div>
+                        </div>
+                         <div class="flex items-center">
+                            <span class="text-green-500 mx-3">📈</span>
+                            <div><strong class="font-semibold" data-translate-key="overviewProfit">Profit/Villa:</strong> SAR 30,081</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:col-span-3">
+                    <div class="chart-container mx-auto max-w-lg">
+                        <canvas id="villaProfitChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cost Breakdown Section -->
+        <section id="cost-breakdown" class="mb-16">
+            <h2 class="text-3xl font-bold text-gray-800 mb-2 text-center" data-translate-key="costTitle">Interactive Cost Breakdown</h2>
+            <p class="text-lg text-gray-600 mb-8 text-center max-w-3xl mx-auto" data-translate-key="costSubtitle">Explore the detailed costs for the project. Select a phase to see how costs are distributed. Click on any category card for a detailed list of expenses.</p>
+            
+            <div class="flex justify-center gap-2 mb-8">
+                <button id="btn-total" class="btn-secondary px-4 py-2 rounded-md active" data-translate-key="costBtnTotal">Total Costs</button>
+                <button id="btn-blockwork" class="btn-secondary px-4 py-2 rounded-md" data-translate-key="costBtnBlockwork">Blockwork</button>
+                <button id="btn-plastering" class="btn-secondary px-4 py-2 rounded-md" data-translate-key="costBtnPlastering">Plastering</button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div class="order-2 lg:order-1">
+                    <div id="cost-cards-container" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- Cost cards will be dynamically inserted here -->
+                    </div>
+                </div>
+                <div class="order-1 lg:order-2">
+                    <div class="chart-container mx-auto max-w-md bg-white p-4 rounded-lg shadow-md">
+                        <canvas id="costBreakdownChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Project Timeline -->
+        <section id="timeline" class="mb-16 bg-white p-8 rounded-lg shadow-md">
+            <h2 class="text-3xl font-bold text-gray-800 mb-2" data-translate-key="timelineTitle">Project Timeline & Financial Forecast</h2>
+            <p class="text-lg text-gray-600 mb-8 max-w-3xl" data-translate-key="timelineSubtitle">This chart illustrates the projected growth in cumulative revenue, cost, and profit over the 5-month project duration, based on a completion rate of 5 villas per week.</p>
+            <div class="chart-container mx-auto max-w-4xl">
+                <canvas id="financialForecastChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Investment Ask -->
+        <section id="investment" class="bg-blue-50 border-l-4 border-blue-500 text-blue-900 p-8 rounded-r-lg">
+             <h2 class="text-3xl font-bold mb-4" data-translate-key="investmentTitle">The Investment Ask</h2>
+             <p class="text-5xl font-bold mb-6">SAR 905,000</p>
+             <p class="text-lg mb-4" data-translate-key="investmentSubtitle">This initial capital injection is required to launch the project and maintain operational liquidity through any potential payment delays. The capital is allocated to cover all major upfront costs and establish a robust one-month working capital buffer.</p>
+             <ul class="list-disc list-inside space-y-2 text-lg">
+                <li data-translate-key="investmentPoint1"><strong class="font-semibold" data-translate-key="investmentPoint1Strong">Working Capital for 4 Weeks:</strong> Covers all materials, labor, and overheads to complete the first 20 villas.</li>
+                <li data-translate-key="investmentPoint2"><strong class="font-semibold" data-translate-key="investmentPoint2Strong">Upfront Accommodation Costs:</strong> Includes a three-month rental deposit plus a budget for AC units and furniture.</li>
+                <li data-translate-key="investmentPoint3"><strong class="font-semibold" data-translate-key="investmentPoint3Strong">Initial Tool & Equipment Purchase:</strong> Full cost to equip five parallel teams to handle the 5 villa/week pace.</li>
+             </ul>
+             <p class="mt-6 text-lg font-semibold" data-translate-key="investmentConclusion">This comprehensive upfront investment fully de-risks the project's launch phase, ensuring the timeline and revenue projections are met without interruption.</p>
+        </section>
+    </main>
+    
+    <!-- Modal for Detailed Costs -->
+    <div id="cost-modal" class="fixed inset-0 z-50 items-center justify-center hidden">
+        <div class="modal-bg absolute inset-0"></div>
+        <div class="relative bg-white w-11/12 max-w-2xl mx-auto rounded-lg shadow-lg p-6">
+            <h3 id="modal-title" class="text-2xl font-bold mb-4"></h3>
+            <div id="modal-content" class="max-h-[60vh] overflow-y-auto">
+                <!-- Detailed cost table will be inserted here -->
+            </div>
+            <button id="modal-close" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
+        </div>
+    </div>
+
+    <footer class="text-center py-8 text-gray-500 border-t mt-12">
+        <div id="contact-info" class="mb-6">
+            <h3 class="text-xl font-semibold mb-4 text-gray-700" data-translate-key="contactTitle">Contact Information</h3>
+            <div class="flex flex-wrap justify-center items-center gap-x-8 gap-y-4 text-gray-600">
+                <div class="flex items-center gap-2">
+                    <span>👤</span>
+                    <span>Ahmed Ibrahim</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span>📧</span>
+                    <a href="mailto:abaib26681@gmail.com" class="hover:text-blue-500">abaib26681@gmail.com</a>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-green-600">📞</span>
+                    <div>
+                        <span class="font-medium" data-translate-key="contactWhatsAppLabel">WhatsApp:</span>
+                        <a href="https://wa.me/447515176704" target="_blank" class="hover:text-green-600 ltr:ml-1 rtl:mr-1">+44 75151 76704</a>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span>📱</span>
+                     <div>
+                        <span class="font-medium" data-translate-key="contactMobileLabel">Mobile:</span>
+                        <a href="tel:+966505172522" class="hover:text-blue-500 ltr:ml-1 rtl:mr-1">+966 505 172522</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p data-translate-key="footerText">Al-Saddan Villas Project Financial Dashboard</p>
+    </footer>
+
+    <script>
+        // --- DATA STORE & TRANSLATIONS ---
+        const projectData = {
+            villaFinancials: { revenue: 71000, cost: 40919, profit: 30081 },
+            costs: {
+                total: { materials: 24665, labor: 7350, management: 4950, operations: 2205, tools: 1749 },
+                blockwork: { materials: 17186, mortar: 3895, labor: 3675, tools: 2945, ppe: 645 },
+                plastering: { materials: 3585, labor: 3675, tools: 5801, ppe: 534 }
+            },
+            detailedCosts: {
+                'Blockwork Materials': [{ item: 'Insulated Block (200mm)', cost: 12090 }, { item: 'Hollow Block (200mm)', cost: 1278 }, { item: 'Solid Block (200mm)', cost: 960 }, { item: 'Hollow Block (100mm)', cost: 1996 }, { item: 'Solid Block (100mm)', cost: 863 }],
+                'Blockwork Mortar': [{ item: 'Cement', cost: 1995 }, { item: 'Sand', cost: 1900 }],
+                'Blockwork Labor': [{ item: 'Brick Layer (3)', cost: 2175 }, { item: 'Helper (3)', cost: 1500 }],
+                'Plastering Materials': [{ item: 'Cement', cost: 1665 }, { item: 'Sand', cost: 1920 }],
+                'Plastering Labor': [{ item: 'Plasterer (3)', cost: 2175 }, { item: 'Helper (3)', cost: 1500 }],
+                'Total Management': [{ item: 'General Manager', cost: 1000 }, { item: 'Project Manager', cost: 750 }, { item: 'Site Engineers', cost: 800 }, { item: 'Quality Assurance', cost: 375 }, { item: 'Procurement Manager', cost: 325 }, { item: 'Operations Manager', cost: 450 }, { item: 'Accountant', cost: 275 }, { item: 'Office Rental', cost: 350 }, { item: 'Car Rental & Gas', cost: 450 }, { item: 'Pickup Rental & Gas', cost: 175 }],
+                'Total Operations': [{ item: 'Accommodation', cost: 630 }, { item: 'Transportation', cost: 800 }, { item: 'Food', cost: 600 }, { item: 'Kitchen Utilities', cost: 150 }, { item: 'Drinking Water', cost: 25 }],
+            },
+            schedule: {
+                weeks: ['Start', 'W2', 'W4', 'W6', 'W8', 'W10', 'W12', 'W14', 'W16', 'W18', 'W20'],
+                revenue: [0, 355000, 915000, 1625000, 2335000, 3045000, 3755000, 4465000, 5175000, 5885000, 7100000],
+                cost: [0, 227807, 588804, 998010, 1407215, 1816420, 2225626, 2634831, 3044036, 3453242, 4067050],
+                profit: [0, 127193, 326196, 626990, 927785, 1228580, 1529374, 1830169, 2130964, 2431758, 2972962],
+            }
+        };
+
+        const translations = {
+            en: {
+                projectTitle: "Al-Saddan Villas",
+                navOverview: "Overview", navCostBreakdown: "Cost Breakdown", navTimeline: "Project Timeline", navInvestment: "Investment Ask",
+                kpiRevenue: "Total Revenue", kpiProfit: "Total Profit", kpiMargin: "Profit Margin", kpiDuration: "Project Duration", kpiDurationValue: "5 Months",
+                overviewTitle: "Project Overview", overviewSubtitle: "This section provides a high-level view of the project's scope and the financial breakdown for a single villa, illustrating the core profitability.",
+                overviewKeyDetails: "Key Details", overviewLocation: "Location:", overviewScope: "Scope:", overviewContractValue: "Contract Value/Villa:", overviewTotalCost: "Total Cost/Villa:", overviewProfit: "Profit/Villa:",
+                villaProfitChartTitle: "Cost vs. Profit per Villa (SAR)", villaCostLabel: "Total Cost", villaProfitLabel: "Profit",
+                costTitle: "Interactive Cost Breakdown", costSubtitle: "Explore the detailed costs for the project. Select a phase to see how costs are distributed. Click on any category card for a detailed list of expenses.",
+                costBtnTotal: "Total Costs", costBtnBlockwork: "Blockwork", costBtnPlastering: "Plastering",
+                costCat_materials: "Materials", costCat_labor: "Labor", costCat_management: "Management", costCat_operations: "Operations", costCat_tools: "Tools", costCat_mortar: "Mortar", costCat_ppe: "PPE",
+                costDistTitle: (phase) => `${phase.charAt(0).toUpperCase() + phase.slice(1)} Cost Distribution`,
+                timelineTitle: "Project Timeline & Financial Forecast", timelineSubtitle: "This chart illustrates the projected growth in cumulative revenue, cost, and profit over the 5-month project duration, based on a completion rate of 5 villas per week.",
+                timelineRevenueLabel: "Cumulative Revenue", timelineCostLabel: "Cumulative Cost", timelineProfitLabel: "Cumulative Profit",
+                investmentTitle: "The Investment Ask", investmentSubtitle: "This initial capital injection is required to launch the project and maintain operational liquidity through any potential payment delays. The capital is allocated to cover all major upfront costs and establish a robust one-month working capital buffer.",
+                investmentPoint1: " Covers all materials, labor, and overheads to complete the first 20 villas.", investmentPoint1Strong: "Working Capital for 4 Weeks:",
+                investmentPoint2: " Includes a three-month rental deposit plus a budget for AC units and furniture.", investmentPoint2Strong: "Upfront Accommodation Costs:",
+                investmentPoint3: " Full cost to equip five parallel teams to handle the 5 villa/week pace.", investmentPoint3Strong: "Initial Tool & Equipment Purchase:",
+                investmentConclusion: "This comprehensive upfront investment fully de-risks the project's launch phase, ensuring the timeline and revenue projections are met without interruption.",
+                footerText: "Al-Saddan Villas Project Financial Dashboard",
+                contactTitle: "Contact Information", contactWhatsAppLabel: "WhatsApp:", contactMobileLabel: "Mobile:",
+                modalDetails: "Details", modalItem: "Item", modalCost: "Cost (SAR)", modalTotal: "Total"
+            },
+            ar: {
+                projectTitle: "فلل السدان",
+                navOverview: "نظرة عامة", navCostBreakdown: "تفاصيل التكلفة", navTimeline: "الجدول الزمني", navInvestment: "الاستثمار المطلوب",
+                kpiRevenue: "إجمالي الإيرادات", kpiProfit: "إجمالي الربح", kpiMargin: "هامش الربح", kpiDuration: "مدة المشروع", kpiDurationValue: "5 أشهر",
+                overviewTitle: "نظرة عامة على المشروع", overviewSubtitle: "يقدم هذا القسم عرضًا عالي المستوى لنطاق المشروع والتفاصيل المالية لكل فيلا، مما يوضح الربحية الأساسية.",
+                overviewKeyDetails: "التفاصيل الرئيسية", overviewLocation: "الموقع:", overviewScope: "النطاق:", overviewContractValue: "قيمة العقد/فيلا:", overviewTotalCost: "التكلفة الإجمالية/فيلا:", overviewProfit: "الربح/فيلا:",
+                villaProfitChartTitle: "التكلفة مقابل الربح لكل فيلا (ريال سعودي)", villaCostLabel: "التكلفة الإجمالية", villaProfitLabel: "الربح",
+                costTitle: "تفاصيل التكلفة التفاعلية", costSubtitle: "استكشف التكاليف التفصيلية للمشروع. حدد مرحلة لمعرفة كيفية توزيع التكاليف. انقر على أي بطاقة فئة للحصول على قائمة مفصلة بالنفقات.",
+                costBtnTotal: "التكاليف الإجمالية", costBtnBlockwork: "أعمال البلوك", costBtnPlastering: "أعمال اللياسة",
+                costCat_materials: "مواد", costCat_labor: "عمالة", costCat_management: "إدارة", costCat_operations: "تشغيل", costCat_tools: "أدوات", costCat_mortar: "مونة", costCat_ppe: "معدات الوقاية",
+                costDistTitle: (phase) => `توزيع تكاليف ${phase === 'total' ? 'الإجمالية' : (phase === 'blockwork' ? 'أعمال البلوك' : 'أعمال اللياسة')}`,
+                timelineTitle: "الجدول الزمني للمشروع والتوقعات المالية", timelineSubtitle: "يوضح هذا الرسم البياني النمو المتوقع في الإيرادات والتكاليف والأرباح التراكمية على مدى 5 أشهر، بناءً على معدل إنجاز 5 فلل أسبوعيًا.",
+                timelineRevenueLabel: "الإيرادات التراكمية", timelineCostLabel: "التكلفة التراكمية", timelineProfitLabel: "الربح التراكمي",
+                investmentTitle: "الاستثمار المطلوب", investmentSubtitle: "هذا الضخ الرأسمالي الأولي مطلوب لإطلاق المشروع والحفاظ على السيولة التشغيلية خلال أي تأخيرات محتملة في الدفع. يتم تخصيص رأس المال لتغطية جميع التكاليف الأولية الرئيسية وإنشاء احتياطي رأسمال عامل قوي لمدة شهر واحد.",
+                investmentPoint1: " يغطي جميع المواد والعمالة والنفقات العامة لإكمال أول 20 فيلا.", investmentPoint1Strong: "رأس المال العامل لمدة 4 أسابيع:",
+                investmentPoint2: " يشمل وديعة إيجار لمدة ثلاثة أشهر بالإضافة إلى ميزانية لوحدات التكييف والأثاث.", investmentPoint2Strong: "تكاليف السكن الأولية:",
+                investmentPoint3: " التكلفة الكاملة لتجهيز خمسة فرق متوازية للتعامل مع وتيرة 5 فلل في الأسبوع.", investmentPoint3Strong: "شراء الأدوات والمعدات الأولية:",
+                investmentConclusion: "هذا الاستثمار الأولي الشامل يزيل المخاطر بالكامل عن مرحلة إطلاق المشروع، مما يضمن تحقيق الجدول الزمني وتوقعات الإيرادات دون انقطاع.",
+                footerText: "لوحة المعلومات المالية لمشروع فلل السدان",
+                contactTitle: "معلومات التواصل", contactWhatsAppLabel: "واتساب:", contactMobileLabel: "جوال:",
+                modalDetails: "تفاصيل", modalItem: "البند", modalCost: "التكلفة (ريال)", modalTotal: "الإجمالي"
+            },
+            bn: {
+                projectTitle: "আল-সাদ্দান ভিলা",
+                navOverview: "একনজরে", navCostBreakdown: "খরচের বিবরণ", navTimeline: "প্রকল্পের সময়রেখা", navInvestment: "বিনিয়োগের অনুরোধ",
+                kpiRevenue: "মোট রাজস্ব", kpiProfit: "মোট লাভ", kpiMargin: "লাভের মার্জিন", kpiDuration: "প্রকল্পের সময়কাল", kpiDurationValue: "৫ মাস",
+                overviewTitle: "প্রকল্পের সংক্ষিপ্ত বিবরণ", overviewSubtitle: "এই বিভাগটি প্রকল্পের পরিধি এবং একটি একক ভিলার আর্থিক ভাঙ্গনের একটি উচ্চ-স্তরের দৃশ্য প্রদান করে, মূল লাভজনকতা চিত্রিত করে।",
+                overviewKeyDetails: "মূল বিবরণ", overviewLocation: "অবস্থান:", overviewScope: "পরিধি:", overviewContractValue: "চুক্তি মূল্য/ভিলা:", overviewTotalCost: "মোট খরচ/ভিলা:", overviewProfit: "লাভ/ভিলা:",
+                villaProfitChartTitle: "খরচ বনাম লাভ প্রতি ভিলা (SAR)", villaCostLabel: "মোট খরচ", villaProfitLabel: "লাভ",
+                costTitle: "ইন্টারেক্টিভ খরচের বিবরণ", costSubtitle: "প্রকল্পের বিস্তারিত খরচ অন্বেষেষণ করুন। খরচ কিভাবে বিতরণ করা হয় তা দেখতে একটি পর্যায় নির্বাচন করুন। বিস্তারিত খরচের তালিকার জন্য যেকোনো বিভাগের কার্ডে ক্লিক করুন।",
+                costBtnTotal: "মোট খরচ", costBtnBlockwork: "ব্লকের কাজ", costBtnPlastering: "প্লাস্টারিং",
+                costCat_materials: "উপকরণ", costCat_labor: "শ্রম", costCat_management: "ব্যবস্থাপনা", costCat_operations: "অপারেশন", costCat_tools: "সরঞ্জাম", costCat_mortar: "মর্টার", costCat_ppe: "পিপিই",
+                costDistTitle: (phase) => `${phase === 'total' ? 'মোট' : (phase === 'blockwork' ? 'ব্লকের কাজের' : 'প্লাস্টারিংয়ের')} খরচ বিতরণ`,
+                timelineTitle: "প্রকল্পের সময়রেখা এবং আর্থিক পূর্বাভাস", timelineSubtitle: "এই চার্টটি প্রতি সপ্তাহে ৫টি ভিলা সমাপ্তির হারের উপর ভিত্তি করে ৫ মাসের প্রকল্পের সময়কালে ক্রমবর্ধমান রাজস্ব, খরচ এবং লাভের অনুমানিত বৃদ্ধি চিত্রিত করে।",
+                timelineRevenueLabel: "ক্রমবর্ধমান রাজস্ব", timelineCostLabel: "ক্রমবর্ধমান খরচ", timelineProfitLabel: "ক্রমবর্ধমান লাভ",
+                investmentTitle: "বিনিয়োগের অনুরোধ", investmentSubtitle: "প্রকল্পটি চালু করতে এবং যেকোনো সম্ভাব্য অর্থপ্রদান বিলম্বের মাধ্যমে কর্মক্ষম তারল্য বজায় রাখার জন্য এই প্রাথমিক মূলধন ইনজেকশন প্রয়োজন। মূলধনটি সমস্ত বড় অগ্রিম খরচ কভার করতে এবং একটি শক্তিশালী এক মাসের কার্যকরী মূলধন বাফার প্রতিষ্ঠা করার জন্য বরাদ্দ করা হয়েছে।",
+                investmentPoint1: " প্রথম ২০টি ভিলা সম্পূর্ণ করার জন্য সমস্ত উপকরণ, শ্রম এবং ওভারহেড কভার করে।", investmentPoint1Strong: "৪ সপ্তাহের জন্য কার্যকরী মূলধন:",
+                investmentPoint2: " তিন মাসের ভাড়া আমানত এবং এসি ইউনিট ও আসবাবপত্রের জন্য একটি বাজেট অন্তর্ভুক্ত।", investmentPoint2Strong: "অগ্রিম আবাসন খরচ:",
+                investmentPoint3: " প্রতি সপ্তাহে ৫টি ভিলার গতি সামলানোর জন্য পাঁচটি সমান্তরাল দলকে সজ্জিত করার সম্পূর্ণ খরচ।", investmentPoint3Strong: "প্রাথমিক সরঞ্জাম ও সরঞ্জাম ক্রয়:",
+                investmentConclusion: "এই ব্যাপক অগ্রিম বিনিয়োগ প্রকল্পের লঞ্চ পর্বকে সম্পূর্ণরূপে ঝুঁকি মুক্ত করে, সময়রেখা এবং রাজস্ব অনুমানগুলি নিরবচ্ছিন্নভাবে পূরণ করা নিশ্চিত করে।",
+                footerText: "আল-সাদ্দান ভিলা প্রকল্প আর্থিক ড্যাশবোর্ড",
+                contactTitle: "যোগাযোগের তথ্য", contactWhatsAppLabel: "হোয়াটসঅ্যাপ:", contactMobileLabel: "মোবাইল:",
+                modalDetails: "বিস্তারিত", modalItem: "আইটেম", modalCost: "খরচ (SAR)", modalTotal: "মোট"
+            }
+        };
+
+        // --- GLOBAL STATE ---
+        let currentLang = 'en';
+        let currentCostView = 'total';
+        let villaProfitChart, costBreakdownChart, financialForecastChart;
+
+        // --- UTILITY FUNCTIONS ---
+        const formatCurrency = (value) => `SAR ${Math.round(value).toLocaleString()}`;
+        
+        // --- TRANSLATION & DOM UPDATE ---
+        function setLanguage(lang) {
+            currentLang = lang;
+            const direction = lang === 'ar' ? 'rtl' : 'ltr';
+            document.documentElement.lang = lang;
+            document.documentElement.dir = direction;
+
+            document.querySelectorAll('[data-translate-key]').forEach(el => {
+                const key = el.dataset.translateKey;
+                const translation = translations[lang][key];
+                if (typeof translation === 'function') {
+                    // Handle dynamic translations if needed, though none currently exist
+                } else if (translation) {
+                    el.textContent = translation;
+                }
+            });
+
+            // Update active language button
+            ['en', 'ar', 'bn'].forEach(l => {
+                document.getElementById(`lang-${l}`).classList.toggle('active', l === lang);
+            });
+
+            // Re-render all dynamic components
+            renderAllCharts();
+        }
+
+        // --- CHART RENDERING ---
+        function renderAllCharts() {
+            if (villaProfitChart) villaProfitChart.destroy();
+            if (costBreakdownChart) costBreakdownChart.destroy();
+            if (financialForecastChart) financialForecastChart.destroy();
+            
+            Chart.defaults.font.family = document.documentElement.lang === 'ar' ? 'Cairo' : 'Inter';
+            Chart.defaults.color = '#6C757D';
+            
+            renderVillaProfitChart();
+            renderFinancialForecastChart();
+            updateCostBreakdownView(currentCostView);
+        }
+        
+        function renderVillaProfitChart() {
+            const ctx = document.getElementById('villaProfitChart').getContext('2d');
+            villaProfitChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [translations[currentLang].projectTitle],
+                    datasets: [
+                        { label: translations[currentLang].villaCostLabel, data: [projectData.villaFinancials.cost], backgroundColor: 'rgba(239, 68, 68, 0.7)' },
+                        { label: translations[currentLang].villaProfitLabel, data: [projectData.villaFinancials.profit], backgroundColor: 'rgba(34, 197, 94, 0.7)' }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        title: { display: true, text: translations[currentLang].villaProfitChartTitle, font: { size: 16 }, color: '#343A40' },
+                        tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ${formatCurrency(c.raw)}` } }
+                    },
+                    scales: { y: { beginAtZero: true, ticks: { callback: (v) => formatCurrency(v) } } }
+                }
+            });
+        }
+
+        function renderFinancialForecastChart() {
+            const ctx = document.getElementById('financialForecastChart').getContext('2d');
+            financialForecastChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: projectData.schedule.weeks,
+                    datasets: [
+                        { label: translations[currentLang].timelineRevenueLabel, data: projectData.schedule.revenue, borderColor: 'rgba(59, 130, 246, 1)', backgroundColor: 'rgba(59, 130, 246, 0.1)', fill: true, tension: 0.1 },
+                        { label: translations[currentLang].timelineCostLabel, data: projectData.schedule.cost, borderColor: 'rgba(239, 68, 68, 1)', backgroundColor: 'rgba(239, 68, 68, 0.1)', fill: true, tension: 0.1 },
+                        { label: translations[currentLang].timelineProfitLabel, data: projectData.schedule.profit, borderColor: 'rgba(34, 197, 94, 1)', backgroundColor: 'rgba(34, 197, 94, 0.1)', fill: true, tension: 0.1 }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        title: { display: true, text: translations[currentLang].timelineTitle, font: { size: 16 }, color: '#343A40' },
+                        tooltip: { mode: 'index', intersect: false, callbacks: { label: (c) => `${c.dataset.label}: ${formatCurrency(c.raw)}` } },
+                    },
+                    scales: { y: { beginAtZero: true, ticks: { callback: (v) => `${(v / 1000000).toFixed(1)}M` } } }
+                }
+            });
+        }
+
+        // --- COST BREAKDOWN LOGIC ---
+        const costBreakdownCtx = document.getElementById('costBreakdownChart').getContext('2d');
+        const costCardsContainer = document.getElementById('cost-cards-container');
+        const costColors = { materials: 'rgba(59, 130, 246, 0.8)', labor: 'rgba(249, 115, 22, 0.8)', management: 'rgba(139, 92, 246, 0.8)', operations: 'rgba(234, 179, 8, 0.8)', tools: 'rgba(107, 114, 128, 0.8)', mortar: 'rgba(20, 184, 166, 0.8)', ppe: 'rgba(236, 72, 153, 0.8)' };
+
+        function createCostCards(data, phase) {
+            costCardsContainer.innerHTML = '';
+            Object.entries(data).forEach(([key, value]) => {
+                const card = document.createElement('div');
+                card.className = 'kpi-card p-4 cursor-pointer';
+                const title = translations[currentLang][`costCat_${key}`];
+                let detailKey;
+                if (phase === 'total') detailKey = `Total ${key.charAt(0).toUpperCase() + key.slice(1)}`;
+                else detailKey = `${phase.charAt(0).toUpperCase() + phase.slice(1)} ${key.charAt(0).toUpperCase() + key.slice(1)}`;
+                
+                card.innerHTML = `<h4 class="text-gray-500 font-medium">${title}</h4><p class="text-2xl font-bold text-gray-800 mt-1">${formatCurrency(value)}</p>`;
+                
+                if (projectData.detailedCosts[detailKey]) {
+                    card.dataset.detailKey = detailKey;
+                    card.addEventListener('click', () => openModal(detailKey));
+                } else {
+                    card.style.cursor = 'default';
+                }
+                costCardsContainer.appendChild(card);
+            });
+        }
+        
+        function updateCostBreakdownView(phase) {
+            currentCostView = phase;
+            if (costBreakdownChart) costBreakdownChart.destroy();
+            
+            const data = projectData.costs[phase];
+            const labels = Object.keys(data).map(k => translations[currentLang][`costCat_${k}`]);
+            const values = Object.values(data);
+
+            costBreakdownChart = new Chart(costBreakdownCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{ label: 'Cost', data: values, backgroundColor: Object.keys(data).map(key => costColors[key]), borderColor: '#FFFFFF', borderWidth: 2 }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        title: { display: true, text: translations[currentLang].costDistTitle(phase), font: { size: 16 }, color: '#343A40' },
+                        legend: { position: 'bottom' },
+                        tooltip: { callbacks: { label: (c) => `${c.label}: ${formatCurrency(c.raw)}` } }
+                    }
+                }
+            });
+
+            createCostCards(data, phase);
+            
+            ['total', 'blockwork', 'plastering'].forEach(p => {
+                document.getElementById(`btn-${p}`).classList.toggle('active', p === phase);
+            });
+        }
+
+        document.getElementById('btn-total').addEventListener('click', () => updateCostBreakdownView('total'));
+        document.getElementById('btn-blockwork').addEventListener('click', () => updateCostBreakdownView('blockwork'));
+        document.getElementById('btn-plastering').addEventListener('click', () => updateCostBreakdownView('plastering'));
+        
+        // --- MODAL LOGIC ---
+        const modal = document.getElementById('cost-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalContent = document.getElementById('modal-content');
+
+        function openModal(detailKey) {
+            const details = projectData.detailedCosts[detailKey];
+            if (!details) return;
+
+            modalTitle.textContent = `${detailKey} ${translations[currentLang].modalDetails}`;
+            
+            let tableHTML = `<div class="overflow-x-auto"><table class="min-w-full bg-white"><thead class="bg-gray-100"><tr>
+                <th class="text-left py-2 px-4 font-semibold text-gray-600">${translations[currentLang].modalItem}</th>
+                <th class="text-right py-2 px-4 font-semibold text-gray-600">${translations[currentLang].modalCost}</th>
+                </tr></thead><tbody>`;
+            
+            let total = 0;
+            details.forEach(item => {
+                tableHTML += `<tr class="border-b">
+                    <td class="py-2 px-4 text-gray-700">${item.item}</td>
+                    <td class="py-2 px-4 text-gray-800 text-right font-medium">${Math.round(item.cost).toLocaleString()}</td>
+                    </tr>`;
+                total += item.cost;
+            });
+
+            tableHTML += `</tbody><tfoot class="bg-gray-100"><tr>
+                <td class="py-2 px-4 font-bold text-gray-700">${translations[currentLang].modalTotal}</td>
+                <td class="py-2 px-4 font-bold text-gray-800 text-right">${Math.round(total).toLocaleString()}</td>
+                </tr></tfoot></table></div>`;
+            
+            modalContent.innerHTML = tableHTML;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        document.getElementById('modal-close').addEventListener('click', closeModal);
+        modal.querySelector('.modal-bg').addEventListener('click', closeModal);
+        
+        // --- INITIALIZATION ---
+        document.getElementById('lang-en').addEventListener('click', () => setLanguage('en'));
+        document.getElementById('lang-ar').addEventListener('click', () => setLanguage('ar'));
+        document.getElementById('lang-bn').addEventListener('click', () => setLanguage('bn'));
+
+        window.onload = () => {
+            setLanguage('en');
+        };
+
+    </script>
+</body>
+</html>
