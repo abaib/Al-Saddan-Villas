@@ -133,11 +133,11 @@
                 </div>
                 <div class="kpi-card p-6">
                     <h3 class="text-gray-500 text-lg font-medium" data-translate-key="kpiProfit">Total Profit</h3>
-                    <p class="text-4xl font-bold text-green-600 mt-2">SAR 2.97M</p>
+                    <p class="text-4xl font-bold text-green-600 mt-2">SAR 2.1M</p>
                 </div>
                 <div class="kpi-card p-6">
                     <h3 class="text-gray-500 text-lg font-medium" data-translate-key="kpiMargin">Profit Margin</h3>
-                    <p class="text-4xl font-bold text-green-600 mt-2">42%</p>
+                    <p class="text-4xl font-bold text-green-600 mt-2">29%</p>
                 </div>
                 <div class="kpi-card p-6">
                     <h3 class="text-gray-500 text-lg font-medium" data-translate-key="kpiDuration">Project Duration</h3>
@@ -168,11 +168,11 @@
                         </div>
                         <div class="flex items-center">
                             <span class="text-red-500 mx-3">💸</span>
-                            <div><strong class="font-semibold" data-translate-key="overviewTotalCost">Total Cost/Villa:</strong> SAR 40,919</div>
+                            <div><strong class="font-semibold" data-translate-key="overviewTotalCost">Total Cost/Villa:</strong> SAR 49,666</div>
                         </div>
                          <div class="flex items-center">
                             <span class="text-green-500 mx-3">📈</span>
-                            <div><strong class="font-semibold" data-translate-key="overviewProfit">Profit/Villa:</strong> SAR 30,081</div>
+                            <div><strong class="font-semibold" data-translate-key="overviewProfit">Profit/Villa:</strong> SAR 21,334</div>
                         </div>
                     </div>
                 </div>
@@ -225,7 +225,7 @@
             <!-- Narrative Summary -->
             <div class="max-w-4xl mx-auto mb-12">
                 <p class="text-lg text-center text-gray-700" data-translate-key="investmentNarrative">
-                    This project represents a prime opportunity to capitalize on the strong demand for quality construction in Jeddah's growing residential market. With a proven operational model ensuring a 42% profit margin, the business is scalable to a capacity of 5 villas per week. This generates a consistent weekly cash flow of approximately SAR 150,000, leading to a total projected profit of nearly SAR 3 million by the project's completion.
+                    This project represents a prime opportunity to capitalize on the strong demand for quality construction in Jeddah's growing residential market. With a proven operational model ensuring a 29% profit margin, the business is scalable to a capacity of 5 villas per week. This generates a consistent weekly cash flow, leading to a total projected profit of over SAR 2 million by the project's completion.
                 </p>
             </div>
 
@@ -266,7 +266,7 @@
             <!-- Investment Ask -->
             <div class="mt-12 bg-blue-50 border-l-4 border-blue-500 text-blue-900 p-8 rounded-r-lg">
                  <h3 class="text-2xl font-bold mb-4" data-translate-key="investmentTitle">The Investment Ask</h3>
-                 <p class="text-5xl font-bold mb-6">SAR 905,000</p>
+                 <p class="text-5xl font-bold mb-6">SAR 1.1M</p>
                  <p class="text-lg mb-4" data-translate-key="investmentSubtitle">This initial capital injection is required to launch the project and maintain operational liquidity through any potential payment delays. The capital is allocated to cover all major upfront costs and establish a robust one-month working capital buffer.</p>
                  <ul class="list-disc list-inside space-y-2 text-lg">
                     <li data-translate-key="investmentPoint1"><strong class="font-semibold" data-translate-key="investmentPoint1Strong">Working Capital for 4 Weeks:</strong> Covers all materials, labor, and overheads to complete the first 20 villas.</li>
@@ -324,35 +324,42 @@
     <script>
         // --- DATA STORE & TRANSLATIONS ---
         const projectData = {
-            villaFinancials: { revenue: 71000, cost: 40919, profit: 30081 },
+            villaFinancials: { revenue: 71000, cost: 49666, profit: 21334 },
             costs: {
-                total: { materials: 24666, labor: 7350, management: 4950, operations: 2205, tools: 1749 },
-                blockwork: { materials: 17186, mortar: 3895, labor: 3675, tools: 2945, ppe: 645 },
-                plastering: { materials: 3585, labor: 3675, tools: 5801, ppe: 534 }
+                total: { materials: 24666, labor: 11025, management: 4950, operations: 3308, tools: 2167, risk: 3550 },
+                blockwork: { materials: 17185, mortar: 3895, labor: 6125, tools: 883, ppe: 1075, risk: 2050 },
+                plastering: { materials: 3585, labor: 4900, tools: 1284, ppe: 712, risk: 1500 }
             },
             detailedCosts: {
-                blockworkMaterials: [ { key: 'insulatedBlock200', cost: 12090 }, { key: 'hollowBlock200', cost: 1278 }, { key: 'solidBlock200', cost: 960 }, { key: 'hollowBlock100', cost: 1996 }, { key: 'solidBlock100', cost: 863 } ],
+                blockworkMaterials: [ { key: 'insulatedBlock200', cost: 12090 }, { key: 'hollowBlock200', cost: 1278 }, { key: 'solidBlock200', cost: 960 }, { key: 'hollowBlock100', cost: 1995 }, { key: 'solidBlock100', cost: 863 } ],
                 blockworkMortar: [ { key: 'cement', cost: 1995 }, { key: 'sand', cost: 1900 } ],
-                blockworkLabor: [ { key: 'brickLayer', cost: 2175 }, { key: 'helper', cost: 1500 } ],
-                blockworkTools: [ { key: 'tapeMeasure', cost: 30.18 }, { key: 'spiritLevel', cost: 79.35 }, { key: 'plumbBob', cost: 30 }, { key: 'handGunNail', cost: 69 }, { key: 'trowelSpoon', cost: 30 }, { key: 'hammer', cost: 15 }, { key: 'angleGrinder', cost: 598 }, { key: 'cuttingDisc', cost: 196 }, { key: 'aluminumBar', cost: 165.6 }, { key: 'rope', cost: 6.44 }, { key: 'buckets', cost: 27.6 }, { key: 'wheelbarrow', cost: 253 }, { key: 'scaffolding', cost: 800 }, { key: 'ppeSet', cost: 645 } ],
-                blockworkPpe: [ { key: 'safetyHelmet', cost: 90 }, { key: 'dustMask', cost: 75 }, { key: 'safetyGloves', cost: 48 }, { key: 'steelToeBoots', cost: 270 }, { key: 'highVisVest', cost: 72 }, { key: 'safetyGoggles', cost: 60 }, { key: 'earPlugs', cost: 30 } ],
+                blockworkLabor: [ { key: 'brickLayer', cost: 3625 }, { key: 'helper', cost: 2500 } ],
+                blockworkTools: [ { key: 'tapeMeasure', cost: 50 }, { key: 'spiritLevel', cost: 132 }, { key: 'plumbBob', cost: 50 }, { key: 'handGunNail', cost: 207 }, { key: 'trowelSpoon', cost: 50 }, { key: 'hammer', cost: 45 }, { key: 'angleGrinder', cost: 598 }, { key: 'cuttingDisc', cost: 196 }, { key: 'aluminumBar', cost: 276 }, { key: 'rope', cost: 6 }, { key: 'buckets', cost: 23 }, { key: 'wheelbarrow', cost: 506 }, { key: 'scaffolding', cost: 1200 }, { key: 'ppeSet', cost: 1075 } ],
+                blockworkPpe: [ { key: 'safetyHelmet', cost: 150 }, { key: 'dustMask', cost: 125 }, { key: 'safetyGloves', cost: 80 }, { key: 'steelToeBoots', cost: 450 }, { key: 'highVisVest', cost: 120 }, { key: 'safetyGoggles', cost: 100 }, { key: 'earPlugs', cost: 50 } ],
                 plasteringMaterials: [ { key: 'cement', cost: 1665 }, { key: 'sand', cost: 1920 } ],
-                plasteringLabor: [ { key: 'plasterer', cost: 2175 }, { key: 'helper', cost: 1500 } ],
-                plasteringTools: [ { key: 'mortarMixer', cost: 850 }, { key: 'mixingPaddle', cost: 70 }, { key: 'steelTrowel', cost: 100 }, { key: 'finishingTrowel', cost: 120 }, { key: 'hawkBoard', cost: 120 }, { key: 'cornerTrowel', cost: 90 }, { key: 'scratcher', cost: 30 }, { key: 'wireBrush', cost: 24 }, { key: 'straightEdge', cost: 130 }, { key: 'spiritLevel1m', cost: 56 }, { key: 'mobileScaffold', cost: 3600 }, { key: 'ppeSet', cost: 534 }, { key: 'spongeFloat', cost: 32 }, { key: 'plasticSheeting', cost: 45 } ],
-                plasteringPpe: [ { key: 'safetyHelmet', cost: 90 }, { key: 'respiratorMask', cost: 108 }, { key: 'rubberGloves', cost: 36 }, { key: 'safetyGoggles', cost: 60 }, { key: 'coveralls', cost: 150 }, { key: 'kneePads', cost: 90 } ],
+                plasteringLabor: [ { key: 'plasterer', cost: 2900 }, { key: 'helper', cost: 2000 } ],
+                plasteringTools: [ { key: 'mortarMixer', cost: 850 }, { key: 'mixingPaddle', cost: 140 }, { key: 'steelTrowel', cost: 100 }, { key: 'finishingTrowel', cost: 120 }, { key: 'hawkBoard', cost: 160 }, { key: 'cornerTrowel', cost: 180 }, { key: 'scratcher', cost: 60 }, { key: 'wireBrush', cost: 48 }, { key: 'straightEdge', cost: 260 }, { key: 'spiritLevel1m', cost: 112 }, { key: 'mobileScaffold', cost: 3600 }, { key: 'ppeSet', cost: 712 }, { key: 'spongeFloat', cost: 32 }, { key: 'plasticSheeting', cost: 45 } ],
+                plasteringPpe: [ { key: 'safetyHelmet', cost: 120 }, { key: 'respiratorMask', cost: 144 }, { key: 'rubberGloves', cost: 48 }, { key: 'safetyGoggles', cost: 80 }, { key: 'coveralls', cost: 200 }, { key: 'kneePads', cost: 120 } ],
                 totalManagement: [ { key: 'generalManager', cost: 1000 }, { key: 'projectManager', cost: 750 }, { key: 'siteEngineers', cost: 800 }, { key: 'qualityAssurance', cost: 375 }, { key: 'procurementManager', cost: 325 }, { key: 'operationsManager', cost: 450 }, { key: 'accountant', cost: 275 }, { key: 'officeRental', cost: 350 }, { key: 'carRentalGas', cost: 450 }, { key: 'pickupRentalGas', cost: 175 } ],
-                totalOperations: [ { key: 'accommodation', cost: 630 }, { key: 'transportation', cost: 800 }, { key: 'food', cost: 600 }, { key: 'kitchenUtilities', cost: 150 }, { key: 'drinkingWater', cost: 25 } ],
+                totalOperations: [ { key: 'accommodation', cost: 945 }, { key: 'transportation', cost: 1200 }, { key: 'food', cost: 900 }, { key: 'kitchenUtilities', cost: 225 }, { key: 'drinkingWater', cost: 38 } ],
             },
             schedule: {
                 weeks: ['Start', 'W2', 'W4', 'W6', 'W8', 'W10', 'W12', 'W14', 'W16', 'W18', 'W20'],
                 revenue: [0, 355000, 915000, 1625000, 2335000, 3045000, 3755000, 4465000, 5175000, 5885000, 7100000],
-                cost: [0, 227807, 588804, 998010, 1407215, 1816420, 2225626, 2634831, 3044036, 3453242, 4067050],
-                profit: [0, 127193, 326196, 626990, 927785, 1228580, 1529374, 1830169, 2130964, 2431758, 2972962],
+                cost: [0, 291664, 788320, 1284976, 1781632, 2278288, 2774944, 3271600, 3768256, 4264912, 5009896],
+                profit: [0, 63336, 126672, 341672, 556672, 771672, 986672, 1201672, 1416672, 1631672, 2090104],
             }
         };
         
-        projectData.detailedCosts.totalMaterials = [ ...projectData.detailedCosts.blockworkMaterials, ...projectData.detailedCosts.blockworkMortar, ...projectData.detailedCosts.plasteringMaterials ];
-        projectData.detailedCosts.totalLabor = [ ...projectData.detailedCosts.blockworkLabor, ...projectData.detailedCosts.plasteringLabor ];
+        projectData.detailedCosts.totalMaterials = [
+            { key: 'insulatedBlock200', cost: 12090 }, { key: 'hollowBlock200', cost: 1278 }, { key: 'solidBlock200', cost: 960 }, { key: 'hollowBlock100', cost: 1995 }, { key: 'solidBlock100', cost: 863 },
+            { key: 'cement', cost: 1995 + 1665 }, { key: 'sand', cost: 1900 + 1920 }
+        ];
+        projectData.detailedCosts.totalLabor = [
+            { key: 'brickLayer', cost: 3625 },
+            { key: 'plasterer', cost: 2900 },
+            { key: 'helper', cost: 2500 + 2000 }
+        ];
         projectData.detailedCosts.totalTools = [ ...projectData.detailedCosts.blockworkTools, ...projectData.detailedCosts.plasteringTools ];
 
         const translations = {
@@ -365,12 +372,12 @@
                 villaProfitChartTitle: "Cost vs. Profit per Villa (SAR)", villaCostLabel: "Total Cost", villaProfitLabel: "Profit",
                 costTitle: "Interactive Cost Breakdown", costSubtitle: "Explore the detailed costs for the project. Select a phase to see how costs are distributed. Click on any category card for a detailed list of expenses.",
                 costBtnTotal: "Total Costs", costBtnBlockwork: "Blockwork", costBtnPlastering: "Plastering",
-                costCat_materials: "Materials", costCat_labor: "Labor", costCat_management: "Management", costCat_operations: "Operations", costCat_tools: "Tools (20%)", costCat_mortar: "Mortar", costCat_ppe: "PPE",
+                costCat_materials: "Materials", costCat_labor: "Labor", costCat_management: "Management", costCat_operations: "Operations", costCat_tools: "Tools (20%)", costCat_mortar: "Mortar", costCat_ppe: "PPE", costCat_risk: "Risk (5%)",
                 costDistTitle: (phase) => `${phase.charAt(0).toUpperCase() + phase.slice(1)} Cost Distribution`,
                 timelineTitle: "Project Timeline & Financial Forecast", timelineSubtitle: "This chart illustrates the projected growth in cumulative revenue, cost, and profit over the 5-month project duration, based on a completion rate of 5 villas per week.",
                 timelineRevenueLabel: "Cumulative Revenue", timelineCostLabel: "Cumulative Cost", timelineProfitLabel: "Cumulative Profit",
                 investmentSectionTitle: "Investment Opportunity",
-                investmentNarrative: "This project represents a prime opportunity to capitalize on the strong demand for quality construction in Jeddah's growing residential market. With a proven operational model ensuring a 42% profit margin, the business is scalable to a capacity of 5 villas per week. This generates a consistent weekly cash flow of approximately SAR 150,000, leading to a total projected profit of nearly SAR 3 million by the project's completion.",
+                investmentNarrative: "This project represents a prime opportunity to capitalize on the strong demand for quality construction in Jeddah's growing residential market. With a proven operational model ensuring a 29% profit margin, the business is scalable to a capacity of 5 villas per week. This generates a consistent weekly cash flow, leading to a total projected profit of over SAR 2 million by the project's completion.",
                 nextStepsTitle: "Next Steps for Investors",
                 nextStep1Title: "Review", nextStep1Desc: "Review detailed financial projections.",
                 nextStep2Title: "Visit", nextStep2Desc: "Schedule a site visit to the Al-Khumra project.",
@@ -388,7 +395,7 @@
                 modalTitle_plasteringMaterials: "Plastering Materials Details", modalTitle_plasteringLabor: "Plastering Labor Details", modalTitle_plasteringTools: "Plastering Tools Details", modalTitle_plasteringPpe: "Plastering PPE Details",
                 modalTitle_totalManagement: "Management Cost Details", modalTitle_totalOperations: "Operations Cost Details", modalTitle_totalMaterials: "Total Materials Details", modalTitle_totalLabor: "Total Labor Details", modalTitle_totalTools: "Total Tools (Initial Investment)",
                 insulatedBlock200: "Insulated Block (200mm)", hollowBlock200: "Hollow Block (200mm)", solidBlock200: "Solid Block (200mm)", hollowBlock100: "Hollow Block (100mm)", solidBlock100: "Solid Block (100mm)",
-                cement: "Cement", sand: "Sand", brickLayer: "Brick Layer (3)", helper: "Helper (3)", plasterer: "Plasterer (3)",
+                cement: "Cement", sand: "Sand", brickLayer: "Brick Layer (5)", helper: "Helper (9)", plasterer: "Plasterer (4)",
                 generalManager: "General Manager", projectManager: "Project Manager", siteEngineers: "Site Engineers", qualityAssurance: "Quality Assurance", procurementManager: "Procurement Manager", operationsManager: "Operations Manager", accountant: "Accountant", officeRental: "Office Rental", carRentalGas: "Car Rental & Gas", pickupRentalGas: "Pickup Rental & Gas",
                 accommodation: "Accommodation", transportation: "Transportation", food: "Food", kitchenUtilities: "Kitchen Utilities", drinkingWater: "Drinking Water",
                 tapeMeasure: "Tape Measure", spiritLevel: "Spirit Level", plumbBob: "Plumb Bob", handGunNail: "Hand Gun Nail", trowelSpoon: "Trowel Spoon", hammer: "Hammer", angleGrinder: "Angle Grinder", cuttingDisc: "Cutting Disc", aluminumBar: "Aluminum Bar", rope: "Rope", buckets: "Buckets", wheelbarrow: "Wheelbarrow", scaffolding: "Scaffolding", ppeSet: "PPE Set",
@@ -405,12 +412,12 @@
                 villaProfitChartTitle: "التكلفة مقابل الربح لكل فيلا (ريال سعودي)", villaCostLabel: "التكلفة الإجمالية", villaProfitLabel: "الربح",
                 costTitle: "تفاصيل التكلفة التفاعلية", costSubtitle: "استكشف التكاليف التفصيلية للمشروع. حدد مرحلة لمعرفة كيفية توزيع التكاليف. انقر على أي بطاقة فئة للحصول على قائمة مفصلة بالنفقات.",
                 costBtnTotal: "التكاليف الإجمالية", costBtnBlockwork: "أعمال البلوك", costBtnPlastering: "أعمال اللياسة",
-                costCat_materials: "مواد", costCat_labor: "عمالة", costCat_management: "إدارة", costCat_operations: "تشغيل", costCat_tools: "أدوات (20%)", costCat_mortar: "مونة", costCat_ppe: "معدات الوقاية",
+                costCat_materials: "مواد", costCat_labor: "عمالة", costCat_management: "إدارة", costCat_operations: "تشغيل", costCat_tools: "أدوات (20%)", costCat_mortar: "مونة", costCat_ppe: "معدات الوقاية", costCat_risk: "مخاطر (5%)",
                 costDistTitle: (phase) => `توزيع تكاليف ${phase === 'total' ? 'الإجمالية' : (phase === 'blockwork' ? 'أعمال البلوك' : 'أعمال اللياسة')}`,
                 timelineTitle: "الجدول الزمني للمشروع والتوقعات المالية", timelineSubtitle: "يوضح هذا الرسم البياني النمو المتوقع في الإيرادات والتكاليف والأرباح التراكمية على مدى 5 أشهر، بناءً على معدل إنجاز 5 فلل أسبوعيًا.",
                 timelineRevenueLabel: "الإيرادات التراكمية", timelineCostLabel: "التكلفة التراكمية", timelineProfitLabel: "الربح التراكمي",
                 investmentSectionTitle: "فرصة استثمارية",
-                investmentNarrative: "يمثل هذا المشروع فرصة رئيسية للاستفادة من الطلب القوي على خدمات البناء عالية الجودة في سوق جدة السكني المتنامي. مع نموذج تشغيلي مثبت يضمن هامش ربح بنسبة 42٪، فإن العمل قابل للتطوير بسعة 5 فلل في الأسبوع. وهذا يولد تدفقًا نقديًا أسبوعيًا ثابتًا يبلغ حوالي 150,000 ريال سعودي، مما يؤدي إلى إجمالي ربح متوقع يقارب 3 مليون ريال سعودي بحلول اكتمال المشروع.",
+                investmentNarrative: "يمثل هذا المشروع فرصة رئيسية للاستفادة من الطلب القوي على خدمات البناء عالية الجودة في سوق جدة السكني المتنامي. مع نموذج تشغيلي مثبت يضمن هامش ربح بنسبة 29٪، فإن العمل قابل للتطوير بسعة 5 فلل في الأسبوع. وهذا يولد تدفقًا نقديًا أسبوعيًا ثابتًا، مما يؤدي إلى إجمالي ربح متوقع يزيد عن 2 مليون ريال سعودي بحلول اكتمال المشروع.",
                 nextStepsTitle: "الخطوات التالية للمستثمرين",
                 nextStep1Title: "مراجعة", nextStep1Desc: "مراجعة التوقعات المالية التفصيلية.",
                 nextStep2Title: "زيارة", nextStep2Desc: "جدولة زيارة موقع لمشروع الخمرة.",
@@ -428,7 +435,7 @@
                 modalTitle_plasteringMaterials: "تفاصيل مواد اللياسة", modalTitle_plasteringLabor: "تفاصيل عمالة اللياسة", modalTitle_plasteringTools: "تفاصيل أدوات اللياسة", modalTitle_plasteringPpe: "تفاصيل معدات الوقاية الشخصية للياسة",
                 modalTitle_totalManagement: "تفاصيل تكاليف الإدارة", modalTitle_totalOperations: "تفاصيل تكاليف التشغيل", modalTitle_totalMaterials: "تفاصيل إجمالي المواد", modalTitle_totalLabor: "تفاصيل إجمالي العمالة", modalTitle_totalTools: "إجمالي الأدوات (الاستثمار الأولي)",
                 insulatedBlock200: "بلوك معزول (200 ملم)", hollowBlock200: "بلوك مجوف (200 ملم)", solidBlock200: "بلوك مصمت (200 ملم)", hollowBlock100: "بلوك مجوف (100 ملم)", solidBlock100: "بلوك مصمت (100 ملم)",
-                cement: "أسمنت", sand: "رمل", brickLayer: "بنّاء (3)", helper: "مساعد (3)", plasterer: "مليّس (3)",
+                cement: "أسمنت", sand: "رمل", brickLayer: "بنّاء (5)", helper: "مساعد (9)", plasterer: "مليّس (4)",
                 generalManager: "مدير عام", projectManager: "مدير المشروع", siteEngineers: "مهندسو الموقع", qualityAssurance: "ضمان الجودة", procurementManager: "مدير المشتريات", operationsManager: "مدير العمليات", accountant: "محاسب", officeRental: "إيجار المكتب", carRentalGas: "إيجار سيارة وبنزين", pickupRentalGas: "إيجار بيك آب وبنزين",
                 accommodation: "سكن", transportation: "مواصلات", food: "طعام", kitchenUtilities: "مستلزمات المطبخ", drinkingWater: "مياه شرب",
                 tapeMeasure: "شريط قياس", spiritLevel: "ميزان ماء", plumbBob: "شاقول", handGunNail: "مسدس مسامير", trowelSpoon: "ملعقة بناء", hammer: "مطرقة", angleGrinder: "صاروخ جلخ", cuttingDisc: "قرص قطع", aluminumBar: "قضيب ألومنيوم", rope: "حبل", buckets: "دلاء", wheelbarrow: "عربة يدوية", scaffolding: "سقالة", ppeSet: "مجموعة معدات الوقاية",
@@ -445,12 +452,12 @@
                 villaProfitChartTitle: "খরচ বনাম লাভ প্রতি ভিলা (SAR)", villaCostLabel: "মোট খরচ", villaProfitLabel: "লাভ",
                 costTitle: "ইন্টারেক্টিভ খরচের বিবরণ", costSubtitle: "প্রকল্পের বিস্তারিত খরচ অন্বেষেষণ করুন। খরচ কিভাবে বিতরণ করা হয় তা দেখতে একটি পর্যায় নির্বাচন করুন। বিস্তারিত খরচের তালিকার জন্য যেকোনো বিভাগের কার্ডে ক্লিক করুন।",
                 costBtnTotal: "মোট খরচ", costBtnBlockwork: "ব্লকের কাজ", costBtnPlastering: "প্লাস্টারিং",
-                costCat_materials: "উপকরণ", costCat_labor: "শ্রম", costCat_management: "ব্যবস্থাপনা", costCat_operations: "অপারেশন", costCat_tools: "সরঞ্জাম (২০%)", costCat_mortar: "মর্টার", costCat_ppe: "পিপিই",
+                costCat_materials: "উপকরণ", costCat_labor: "শ্রম", costCat_management: "ব্যবস্থাপনা", costCat_operations: "অপারেশন", costCat_tools: "সরঞ্জাম (২০%)", costCat_mortar: "মর্টার", costCat_ppe: "পিপিই", costCat_risk: "ঝুঁকি (৫%)",
                 costDistTitle: (phase) => `${phase === 'total' ? 'মোট' : (phase === 'blockwork' ? 'ব্লকের কাজের' : 'প্লাস্টারিংয়ের')} খরচ বিতরণ`,
                 timelineTitle: "প্রকল্পের সময়রেখা এবং আর্থিক পূর্বাভাস", timelineSubtitle: "এই চার্টটি প্রতি সপ্তাহে ৫টি ভিলা সমাপ্তির হারের উপর ভিত্তি করে ৫ মাসের প্রকল্পের সময়কালে ক্রমবর্ধমান রাজস্ব, খরচ এবং লাভের অনুমানিত বৃদ্ধি চিত্রিত করে।",
                 timelineRevenueLabel: "ক্রমবর্ধমান রাজস্ব", timelineCostLabel: "ক্রমবর্ধমান খরচ", timelineProfitLabel: "ক্রমবর্ধমান লাভ",
                 investmentSectionTitle: "বিনিয়োগের সুযোগ",
-                investmentNarrative: "এই প্রকল্পটি জেদ্দার ক্রমবর্ধমান আবাসিক বাজারে মানসম্পন্ন নির্মাণের শক্তিশালী চাহিদা পুঁজি করার একটি প্রধান সুযোগের প্রতিনিধিত্ব করে। একটি প্রমাণিত অপারেশনাল মডেল যা ৪২% লাভের মার্জিন নিশ্চিত করে, ব্যবসাটি প্রতি সপ্তাহে ৫টি ভিলার ক্ষমতায় পরিমাপযোগ্য। এটি প্রায় SAR ১৫০,০০০ এর একটি সামঞ্জস্যপূর্ণ সাপ্তাহিক নগদ প্রবাহ তৈরি করে, যা প্রকল্পের সমাপ্তির মাধ্যমে প্রায় SAR ৩ মিলিয়ন মোট আনুমানিক লাভে নিয়ে যায়।",
+                investmentNarrative: "এই প্রকল্পটি জেদ্দার ক্রমবর্ধমান আবাসিক বাজারে মানসম্পন্ন নির্মাণের শক্তিশালী চাহিদা পুঁজি করার একটি প্রধান সুযোগের প্রতিনিধিত্ব করে। একটি প্রমাণিত অপারেশনাল মডেল যা ২৯% লাভের মার্জিন নিশ্চিত করে, ব্যবসাটি প্রতি সপ্তাহে ৫টি ভিলার ক্ষমতায় পরিমাপযোগ্য। এটি একটি সামঞ্জস্যপূর্ণ সাপ্তাহিক নগদ প্রবাহ তৈরি করে, যা প্রকল্পের সমাপ্তির মাধ্যমে SAR ২ মিলিয়নের বেশি মোট আনুমানিক লাভে নিয়ে যায়।",
                 nextStepsTitle: "বিনিয়োগকারীদের জন্য পরবর্তী পদক্ষেপ",
                 nextStep1Title: "পর্যালোচনা", nextStep1Desc: "বিস্তারিত আর্থিক অনুমান পর্যালোচনা করুন।",
                 nextStep2Title: "পরিদর্শন", nextStep2Desc: "আল-খুমরা প্রকল্পে একটি সাইট পরিদর্শনের সময়সূচী করুন।",
@@ -468,7 +475,7 @@
                 modalTitle_plasteringMaterials: "প্লাস্টারিং উপকরণের বিবরণ", modalTitle_plasteringLabor: "প্লাস্টারিং শ্রমের বিবরণ", modalTitle_plasteringTools: "প্লাস্টারিং সরঞ্জামের বিবরণ", modalTitle_plasteringPpe: "প্লাস্টারিং পিপিই-এর বিবরণ",
                 modalTitle_totalManagement: "ব্যবস্থাপনা খরচের বিবরণ", modalTitle_totalOperations: "অপারেশন খরচের বিবরণ", modalTitle_totalMaterials: "মোট উপকরণের বিবরণ", modalTitle_totalLabor: "মোট শ্রমের বিবরণ", modalTitle_totalTools: "মোট সরঞ্জাম (প্রাথমিক বিনিয়োগ)",
                 insulatedBlock200: "ইনসুলেটেড ব্লক (২০০ মিমি)", hollowBlock200: "ফাঁপা ব্লক (২০০ মিমি)", solidBlock200: "সলিড ব্লক (২০০ মিমি)", hollowBlock100: "ফাঁপা ব্লক (১০০ মিমি)", solidBlock100: "সলিড ব্লক (১০০ মিমি)",
-                cement: "সিমেন্ট", sand: "বালি", brickLayer: "রাজমিস্ত্রি (৩)", helper: "সহকারী (৩)", plasterer: "প্লাস্টারার (৩)",
+                cement: "সিমেন্ট", sand: "বালি", brickLayer: "রাজমিস্ত্রি (৫)", helper: "সহকারী (৯)", plasterer: "প্লাস্টারার (৪)",
                 generalManager: "জেনারেল ম্যানেজার", projectManager: "প্রকল্প ব্যবস্থাপক", siteEngineers: "সাইট ইঞ্জিনিয়ার", qualityAssurance: "গুণমান নিশ্চিতকরণ", procurementManager: "ক্রয় ব্যবস্থাপক", operationsManager: "অপারেশনস ম্যানেজার", accountant: "হিসাবরক্ষক", officeRental: "অফিস ভাড়া", carRentalGas: "গাড়ি ভাড়া এবং গ্যাস", pickupRentalGas: "পিকআপ ভাড়া এবং গ্যাস",
                 accommodation: "আবাসন", transportation: "পরিবহন", food: "খাবার", kitchenUtilities: "রান্নাঘরের সরঞ্জাম", drinkingWater: "পানীয় জল",
                 tapeMeasure: "টেপ মেজার", spiritLevel: "স্পিরিট লেভেল", plumbBob: "প্লাম্ব বব", handGunNail: "হ্যান্ড গান নেইল", trowelSpoon: "ট্রাওয়েল স্পুন", hammer: "হাতুড়ি", angleGrinder: "অ্যাঙ্গেল গ্রাইন্ডার", cuttingDisc: "কাটিং ডিস্ক", aluminumBar: "অ্যালুমিনিয়াম বার", rope: "দড়ি", buckets: "বালতি", wheelbarrow: "হুইলবারো", scaffolding: "স্ক্যাফোল্ডিং", ppeSet: "পিপিই সেট",
@@ -574,7 +581,7 @@
         // --- COST BREAKDOWN LOGIC ---
         const costBreakdownCtx = document.getElementById('costBreakdownChart').getContext('2d');
         const costCardsContainer = document.getElementById('cost-cards-container');
-        const costColors = { materials: 'rgba(59, 130, 246, 0.8)', labor: 'rgba(249, 115, 22, 0.8)', management: 'rgba(139, 92, 246, 0.8)', operations: 'rgba(234, 179, 8, 0.8)', tools: 'rgba(107, 114, 128, 0.8)', mortar: 'rgba(20, 184, 166, 0.8)', ppe: 'rgba(236, 72, 153, 0.8)' };
+        const costColors = { materials: 'rgba(59, 130, 246, 0.8)', labor: 'rgba(249, 115, 22, 0.8)', management: 'rgba(139, 92, 246, 0.8)', operations: 'rgba(234, 179, 8, 0.8)', tools: 'rgba(107, 114, 128, 0.8)', mortar: 'rgba(20, 184, 166, 0.8)', ppe: 'rgba(236, 72, 153, 0.8)', risk: 'rgba(239, 68, 68, 0.8)' };
 
         function createCostCards(data, phase) {
             costCardsContainer.innerHTML = '';
