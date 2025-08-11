@@ -333,11 +333,11 @@
             detailedCosts: {
                 blockworkMaterials: [ { key: 'insulatedBlock200', cost: 12090 }, { key: 'hollowBlock200', cost: 1278 }, { key: 'solidBlock200', cost: 960 }, { key: 'hollowBlock100', cost: 1995 }, { key: 'solidBlock100', cost: 863 } ],
                 blockworkMortar: [ { key: 'cement', cost: 1995 }, { key: 'sand', cost: 1900 } ],
-                blockworkLabor: [ { key: 'brickLayer', cost: 3625 }, { key: 'helper', cost: 2500 } ],
+                blockworkLabor: [ { key: 'brickLayer_blockwork', cost: 3625 }, { key: 'helper_blockwork', cost: 2500 } ],
                 blockworkTools: [ { key: 'tapeMeasure', cost: 50 }, { key: 'spiritLevel', cost: 132 }, { key: 'plumbBob', cost: 50 }, { key: 'handGunNail', cost: 207 }, { key: 'trowelSpoon', cost: 50 }, { key: 'hammer', cost: 45 }, { key: 'angleGrinder', cost: 598 }, { key: 'cuttingDisc', cost: 196 }, { key: 'aluminumBar', cost: 276 }, { key: 'rope', cost: 6 }, { key: 'buckets', cost: 23 }, { key: 'wheelbarrow', cost: 506 }, { key: 'scaffolding', cost: 1200 }, { key: 'ppeSet', cost: 1075 } ],
                 blockworkPpe: [ { key: 'safetyHelmet', cost: 150 }, { key: 'dustMask', cost: 125 }, { key: 'safetyGloves', cost: 80 }, { key: 'steelToeBoots', cost: 450 }, { key: 'highVisVest', cost: 120 }, { key: 'safetyGoggles', cost: 100 }, { key: 'earPlugs', cost: 50 } ],
                 plasteringMaterials: [ { key: 'cement', cost: 1665 }, { key: 'sand', cost: 1920 } ],
-                plasteringLabor: [ { key: 'plasterer', cost: 2900 }, { key: 'helper', cost: 2000 } ],
+                plasteringLabor: [ { key: 'plasterer_plastering', cost: 2900 }, { key: 'helper_plastering', cost: 2000 } ],
                 plasteringTools: [ { key: 'mortarMixer', cost: 850 }, { key: 'mixingPaddle', cost: 140 }, { key: 'steelTrowel', cost: 100 }, { key: 'finishingTrowel', cost: 120 }, { key: 'hawkBoard', cost: 160 }, { key: 'cornerTrowel', cost: 180 }, { key: 'scratcher', cost: 60 }, { key: 'wireBrush', cost: 48 }, { key: 'straightEdge', cost: 260 }, { key: 'spiritLevel1m', cost: 112 }, { key: 'mobileScaffold', cost: 3600 }, { key: 'ppeSet', cost: 712 }, { key: 'spongeFloat', cost: 32 }, { key: 'plasticSheeting', cost: 45 } ],
                 plasteringPpe: [ { key: 'safetyHelmet', cost: 120 }, { key: 'respiratorMask', cost: 144 }, { key: 'rubberGloves', cost: 48 }, { key: 'safetyGoggles', cost: 80 }, { key: 'coveralls', cost: 200 }, { key: 'kneePads', cost: 120 } ],
                 totalManagement: [ { key: 'generalManager', cost: 1000 }, { key: 'projectManager', cost: 750 }, { key: 'siteEngineers', cost: 800 }, { key: 'qualityAssurance', cost: 375 }, { key: 'procurementManager', cost: 325 }, { key: 'operationsManager', cost: 450 }, { key: 'accountant', cost: 275 }, { key: 'officeRental', cost: 350 }, { key: 'carRentalGas', cost: 450 }, { key: 'pickupRentalGas', cost: 175 } ],
@@ -356,9 +356,9 @@
             { key: 'cement', cost: 1995 + 1665 }, { key: 'sand', cost: 1900 + 1920 }
         ];
         projectData.detailedCosts.totalLabor = [
-            { key: 'brickLayer', cost: 3625 },
-            { key: 'plasterer', cost: 2900 },
-            { key: 'helper', cost: 2500 + 2000 }
+            { key: 'brickLayer_blockwork', cost: 3625 },
+            { key: 'plasterer_plastering', cost: 2900 },
+            { key: 'helper_total', cost: 2500 + 2000 }
         ];
         projectData.detailedCosts.totalTools = [ ...projectData.detailedCosts.blockworkTools, ...projectData.detailedCosts.plasteringTools ];
 
@@ -395,7 +395,7 @@
                 modalTitle_plasteringMaterials: "Plastering Materials Details", modalTitle_plasteringLabor: "Plastering Labor Details", modalTitle_plasteringTools: "Plastering Tools Details", modalTitle_plasteringPpe: "Plastering PPE Details",
                 modalTitle_totalManagement: "Management Cost Details", modalTitle_totalOperations: "Operations Cost Details", modalTitle_totalMaterials: "Total Materials Details", modalTitle_totalLabor: "Total Labor Details", modalTitle_totalTools: "Total Tools (Initial Investment)",
                 insulatedBlock200: "Insulated Block (200mm)", hollowBlock200: "Hollow Block (200mm)", solidBlock200: "Solid Block (200mm)", hollowBlock100: "Hollow Block (100mm)", solidBlock100: "Solid Block (100mm)",
-                cement: "Cement", sand: "Sand", brickLayer: "Brick Layer (5)", helper: "Helper (9)", plasterer: "Plasterer (4)",
+                cement: "Cement", sand: "Sand", brickLayer_blockwork: "Brick Layer (5)", helper_blockwork: "Helper (5)", plasterer_plastering: "Plasterer (4)", helper_plastering: "Helper (4)", helper_total: "Helper (9)",
                 generalManager: "General Manager", projectManager: "Project Manager", siteEngineers: "Site Engineers", qualityAssurance: "Quality Assurance", procurementManager: "Procurement Manager", operationsManager: "Operations Manager", accountant: "Accountant", officeRental: "Office Rental", carRentalGas: "Car Rental & Gas", pickupRentalGas: "Pickup Rental & Gas",
                 accommodation: "Accommodation", transportation: "Transportation", food: "Food", kitchenUtilities: "Kitchen Utilities", drinkingWater: "Drinking Water",
                 tapeMeasure: "Tape Measure", spiritLevel: "Spirit Level", plumbBob: "Plumb Bob", handGunNail: "Hand Gun Nail", trowelSpoon: "Trowel Spoon", hammer: "Hammer", angleGrinder: "Angle Grinder", cuttingDisc: "Cutting Disc", aluminumBar: "Aluminum Bar", rope: "Rope", buckets: "Buckets", wheelbarrow: "Wheelbarrow", scaffolding: "Scaffolding", ppeSet: "PPE Set",
@@ -435,7 +435,7 @@
                 modalTitle_plasteringMaterials: "تفاصيل مواد اللياسة", modalTitle_plasteringLabor: "تفاصيل عمالة اللياسة", modalTitle_plasteringTools: "تفاصيل أدوات اللياسة", modalTitle_plasteringPpe: "تفاصيل معدات الوقاية الشخصية للياسة",
                 modalTitle_totalManagement: "تفاصيل تكاليف الإدارة", modalTitle_totalOperations: "تفاصيل تكاليف التشغيل", modalTitle_totalMaterials: "تفاصيل إجمالي المواد", modalTitle_totalLabor: "تفاصيل إجمالي العمالة", modalTitle_totalTools: "إجمالي الأدوات (الاستثمار الأولي)",
                 insulatedBlock200: "بلوك معزول (200 ملم)", hollowBlock200: "بلوك مجوف (200 ملم)", solidBlock200: "بلوك مصمت (200 ملم)", hollowBlock100: "بلوك مجوف (100 ملم)", solidBlock100: "بلوك مصمت (100 ملم)",
-                cement: "أسمنت", sand: "رمل", brickLayer: "بنّاء (5)", helper: "مساعد (9)", plasterer: "مليّس (4)",
+                cement: "أسمنت", sand: "رمل", brickLayer_blockwork: "بنّاء (5)", helper_blockwork: "مساعد (5)", plasterer_plastering: "مليّس (4)", helper_plastering: "مساعد (4)", helper_total: "مساعد (9)",
                 generalManager: "مدير عام", projectManager: "مدير المشروع", siteEngineers: "مهندسو الموقع", qualityAssurance: "ضمان الجودة", procurementManager: "مدير المشتريات", operationsManager: "مدير العمليات", accountant: "محاسب", officeRental: "إيجار المكتب", carRentalGas: "إيجار سيارة وبنزين", pickupRentalGas: "إيجار بيك آب وبنزين",
                 accommodation: "سكن", transportation: "مواصلات", food: "طعام", kitchenUtilities: "مستلزمات المطبخ", drinkingWater: "مياه شرب",
                 tapeMeasure: "شريط قياس", spiritLevel: "ميزان ماء", plumbBob: "شاقول", handGunNail: "مسدس مسامير", trowelSpoon: "ملعقة بناء", hammer: "مطرقة", angleGrinder: "صاروخ جلخ", cuttingDisc: "قرص قطع", aluminumBar: "قضيب ألومنيوم", rope: "حبل", buckets: "دلاء", wheelbarrow: "عربة يدوية", scaffolding: "سقالة", ppeSet: "مجموعة معدات الوقاية",
@@ -475,7 +475,7 @@
                 modalTitle_plasteringMaterials: "প্লাস্টারিং উপকরণের বিবরণ", modalTitle_plasteringLabor: "প্লাস্টারিং শ্রমের বিবরণ", modalTitle_plasteringTools: "প্লাস্টারিং সরঞ্জামের বিবরণ", modalTitle_plasteringPpe: "প্লাস্টারিং পিপিই-এর বিবরণ",
                 modalTitle_totalManagement: "ব্যবস্থাপনা খরচের বিবরণ", modalTitle_totalOperations: "অপারেশন খরচের বিবরণ", modalTitle_totalMaterials: "মোট উপকরণের বিবরণ", modalTitle_totalLabor: "মোট শ্রমের বিবরণ", modalTitle_totalTools: "মোট সরঞ্জাম (প্রাথমিক বিনিয়োগ)",
                 insulatedBlock200: "ইনসুলেটেড ব্লক (২০০ মিমি)", hollowBlock200: "ফাঁপা ব্লক (২০০ মিমি)", solidBlock200: "সলিড ব্লক (২০০ মিমি)", hollowBlock100: "ফাঁপা ব্লক (১০০ মিমি)", solidBlock100: "সলিড ব্লক (১০০ মিমি)",
-                cement: "সিমেন্ট", sand: "বালি", brickLayer: "রাজমিস্ত্রি (৫)", helper: "সহকারী (৯)", plasterer: "প্লাস্টারার (৪)",
+                cement: "সিমেন্ট", sand: "বালি", brickLayer_blockwork: "রাজমিস্ত্রি (৫)", helper_blockwork: "সহকারী (৫)", plasterer_plastering: "প্লাস্টারার (৪)", helper_plastering: "সহকারী (৪)", helper_total: "সহকারী (৯)",
                 generalManager: "জেনারেল ম্যানেজার", projectManager: "প্রকল্প ব্যবস্থাপক", siteEngineers: "সাইট ইঞ্জিনিয়ার", qualityAssurance: "গুণমান নিশ্চিতকরণ", procurementManager: "ক্রয় ব্যবস্থাপক", operationsManager: "অপারেশনস ম্যানেজার", accountant: "হিসাবরক্ষক", officeRental: "অফিস ভাড়া", carRentalGas: "গাড়ি ভাড়া এবং গ্যাস", pickupRentalGas: "পিকআপ ভাড়া এবং গ্যাস",
                 accommodation: "আবাসন", transportation: "পরিবহন", food: "খাবার", kitchenUtilities: "রান্নাঘরের সরঞ্জাম", drinkingWater: "পানীয় জল",
                 tapeMeasure: "টেপ মেজার", spiritLevel: "স্পিরিট লেভেল", plumbBob: "প্লাম্ব বব", handGunNail: "হ্যান্ড গান নেইল", trowelSpoon: "ট্রাওয়েল স্পুন", hammer: "হাতুড়ি", angleGrinder: "অ্যাঙ্গেল গ্রাইন্ডার", cuttingDisc: "কাটিং ডিস্ক", aluminumBar: "অ্যালুমিনিয়াম বার", rope: "দড়ি", buckets: "বালতি", wheelbarrow: "হুইলবারো", scaffolding: "স্ক্যাফোল্ডিং", ppeSet: "পিপিই সেট",
